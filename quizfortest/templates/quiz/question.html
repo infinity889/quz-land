@@ -1,0 +1,41 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="quiz-header">
+    <div class="progress-text">Question {{ current_number }} of {{ total }}</div>
+</div>
+
+<h2 class="question-text">{{ question.text }}</h2>
+
+<form method="post" action="{% url 'quiz:question' %}">
+    {% csrf_token %}
+    <div class="options-list">
+        {% for choice in choices %}
+        <div>
+            <input type="radio" id="choice_{{ choice.obj.id }}" name="choice" value="{{ choice.obj.id }}" class="option-input" required>
+            <label for="choice_{{ choice.obj.id }}" class="option-label">
+                <div class="option-letter">{{ choice.letter }}</div>
+                <div class="option-text">{{ choice.obj.text }}</div>
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="action-buttons" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+        <button type="submit" class="btn">Next Question</button>
+        <button type="button" class="btn btn-secondary" onclick="showAnswer()">Show Answer</button>
+    </div>
+    
+    <button type="submit" name="action" value="stop" class="btn btn-danger" formnovalidate>Stop Quiz</button>
+</form>
+
+<script>
+    function showAnswer() {
+        // Highlight the correct answer
+        const correctLabel = document.querySelector('label[for="choice_{{ correct_choice_id }}"]');
+        if (correctLabel) {
+            correctLabel.classList.add('correct-revealed');
+        }
+    }
+</script>
+{% endblock %}

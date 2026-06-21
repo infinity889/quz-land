@@ -1,0 +1,29 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<h1 class="title">Quiz Completed!</h1>
+<div class="result-score">{{ score }} / {{ total }}</div>
+<p class="subtitle">Here is a review of your answers.</p>
+
+<div class="answers-review">
+    {% for ans in answers %}
+    <div class="review-item {% if ans.is_correct %}correct{% else %}incorrect{% endif %}">
+        <div class="review-question">{{ forloop.counter }}. {{ ans.question }}</div>
+        
+        <div class="review-detail">
+            Your Answer: <strong class="{% if ans.is_correct %}text-correct{% else %}text-error{% endif %}">{{ ans.selected }}</strong>
+        </div>
+        
+        {% if not ans.is_correct %}
+        <div class="review-detail">
+            Correct Answer: <strong class="text-correct">{{ ans.correct_answer }}</strong>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<form method="get" action="{% url 'quiz:index' %}">
+    <button type="submit" class="btn">Take Another Quiz</button>
+</form>
+{% endblock %}

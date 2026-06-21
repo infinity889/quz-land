@@ -1,0 +1,11 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<h1 class="title">Tech Mastery Quiz</h1>
+<p class="subtitle">Test your knowledge on Windows, hardware, and best practices. Are you ready?</p>
+
+<form method="post" action="{% url 'quiz:index' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn">Start Quiz (All 196 Questions)</button>
+</form>
+{% endblock %}
